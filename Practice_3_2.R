@@ -5,10 +5,9 @@ dataset <- read_excel("Store and Regional Sales Database.xlsx",
 View(dataset)
 
 # Section (a)
-dataset["Frequency"] = 1
 n = nrow(dataset)
-x = tapply(dataset$Frequency, dataset$`Sales Region`,FUN=sum)
-lbls = c("East","North","South")
+x = table(dataset$`Sales Region`)
+lbls = names(x)
 pct = x/n *100
 lbls <- paste(lbls, pct)
 lbls <- paste(lbls,"%",sep="")
@@ -16,14 +15,12 @@ pie(x, labels = lbls ,radius=1)
 
 # Section (b)
 monitor_24 = subset(dataset, dataset$`Item Description` == '24" Monitor')
-#data = monitor_24[["Units Sold"]]
-#colnames(data)=monitor_24[["Weeks Ending"]]
-#barplot(data, col=colors()[c(40,90,120)], border="white", space=0.04, font.axis=2, beside=T)
+monitor_24 = monitor_24[c("Store No.","Units Sold","Week Ending")]
+monitor_24 = as.data.frame(monitor_24)
+monitor_24 = reshape(monitor_24, idvar="Store No.", timevar="Week Ending", direction = "wide")
+monitor_24 = as.matrix(monitor_24[2:4])
+labels = c("Oct","Nov","Dec")
+barplot(monitor_24, beside=T, col=colors()[c(23,89,12,45,56,98,34,22)], names.arg =labels)
 
-#x = aggregate(monitor_24$`Units Sold`, by=list(monitor_24$`Store No.`, monitor_24$`Week Ending`), FUN=sum)
-#x
-#data = x$x
-#colnames(data) = x$Group.2
-#rownames(data) = x$Group.1
-#barplot(data, col=colors()[c(23,89,12)] , space=1, border="white", font.axis=2, beside=T, legend=rownames(data), xlab="group", font.lab=2)
-
+# Section (c)
+hist(dataset$`Units Sold`,xlab="Units Sold")

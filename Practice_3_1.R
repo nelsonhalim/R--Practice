@@ -27,6 +27,9 @@ BD$Months_Customer[BD$`Months Customer`>50 & BD$`Months Customer`<=60] = "50 < x
 BD$Months_Customer[BD$`Months Customer`>60 & BD$`Months Customer`<=70] = "60 < x <= 70"
 BD$Months_Customer[BD$`Months Customer`>70 & BD$`Months Customer`<=80] = "70 < x <= 80"
 
-# Make a 
+# Make another table for frequencies
 a = as.data.frame(table(BD$Months_Customer))
-a[""]
+a["CummFreq"] = cumsum(a["Freq"])
+
+# Plotting the cummulative frequency
+plot(a[c(1,3)], type="o", xlab = "Months as customer", ylab="Cummulative Frequency")
