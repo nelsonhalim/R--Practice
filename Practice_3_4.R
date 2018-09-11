@@ -149,6 +149,19 @@ barplot(value, main = "Clustered Bar Chart",
 # The combination with most customers is Web and West region
 
 # Section (d)
+hist(dataset$Amount, breaks = 20, xlab = "Amount",
+     xlim = range(seq(0,250,10)),
+     ylim = range(seq(0,250,10))
+     )
+# The most frequent spending amount is between $20-$30
 
+# Section (e) --> Pareto Analysis
+dataset$Amount = sort(dataset$Amount, decreasing = T)
+total = sum(dataset$Amount)
+dataset["Relative Proportion"] = dataset$Amount/total
+dataset["Cumulative"] = cumsum(dataset$`Relative Proportion`)
+View(dataset[c(6,10,11)])
 
+# More than 50% of the amount is accounted by less than 10% sales
+# Less than 55% sales account for more than 80% of the amount
 
