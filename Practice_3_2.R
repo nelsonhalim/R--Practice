@@ -22,5 +22,13 @@ monitor_24 = as.matrix(monitor_24[2:4])
 labels = c("Oct","Nov","Dec")
 barplot(monitor_24, beside=T, col=colors()[c(23,89,12,45,56,98,34,22)], names.arg =labels)
 
+# Alternatively ... 
+library(reshape2)
+monitor = subset(dataset, dataset$`Item Description` == '24" Monitor')
+wsu = monitor[c("Store No.","Units Sold","Week Ending")]
+wsu.wide = dcast(wsu, `Store No.` ~`Week Ending`, value.var="Units Sold")
+value = as.matrix(wsu.wide[, c(4,3,2)])
+barplot(value, main = "Clustered Bar Chart", beside=T, col=colors()[c(23,89,12,45,56,98,34,22)], names.arg =labels)
+
 # Section (c)
 hist(dataset$`Units Sold`,xlab="Units Sold")
